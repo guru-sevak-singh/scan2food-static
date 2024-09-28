@@ -190,7 +190,7 @@ async function createOrder() {
     let redirect_url = data['url']
     console.log(redirect_url);
     window.open(redirect_url, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=10,left=10,width=600,height=600");
-
+    $("#cartPopUp").modal("hide");
 }
 
 

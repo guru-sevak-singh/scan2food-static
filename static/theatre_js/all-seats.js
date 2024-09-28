@@ -98,8 +98,8 @@ function SetUpSeats(all_row, index, hall_name) {
             theatreRow.appendChild(seat);
 
             let table_position = `${hall_name} | ${seat_data.seat_name}`
-            seat.addEventListener('click', () => {
-                OpenPopUp(table_position);
+            seat.addEventListener('click', async() => {
+                await OpenPopUp(table_position, seat);
             })
             table_name = table_position
         }
@@ -132,23 +132,35 @@ function showOrderData() {
 
 ShowSeats()
 
-function OpenPopUp(table_name) {
-    document.getElementById('menuePopUpLabel').innerText = table_name
-    let table_cart_data = localStorage.getItem(table_name);
+async function OpenPopUp(table_name, div="") {
+    console.log(div)
+    let seat_class = div.getAttribute('class');
+    if (seat_class === 'seat') {
+        document.getElementById('menuePopUpLabel').innerText = table_name
+        let table_cart_data = localStorage.getItem(table_name);
 
-    let cartBox = document.getElementById('cart-div');
-    cartBox.setAttribute('style', "display:none;");
+        let cartBox = document.getElementById('cart-div');
+        cartBox.setAttribute('style', "display:none;");
 
-    if (table_cart_data === null) {
-        localStorage.setItem(table_name, JSON.stringify({}));
+        if (table_cart_data === null) {
+            localStorage.setItem(table_name, JSON.stringify({}));
+        }
+        else {
+            cartBox.setAttribute('style', 'display: block;');
+        }
+
+        cartBox.setAttribute('selected-table-name', table_name);
+
+        loadExistingCart(table_name);
+        $("#menuePopUp").modal('show');
     }
     else {
-        cartBox.setAttribute('style', 'display: block;');
+        let seat_id = div.getAttribute('id');
+        seat_id = seat_id.split("-")[1];
+
+        await openOrderProfile(seat_id, "last-seat");
+        $("#orderPopUp").modal('show');
     }
 
-    cartBox.setAttribute('selected-table-name', table_name);
-
-    loadExistingCart(table_name);
-    $("#menuePopUp").modal('show');
 
 }
