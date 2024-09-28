@@ -1,7 +1,33 @@
+const csrftoken = document.querySelector('[name=csrf-token]').content;
+
+// function to hit the post request
+async function PostRequest(url, data) {
+    console.log(data);
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(data),
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            return data;
+        })
+        .catch(function (error) {
+            console.error('Error:', error);
+            throw new Error('Failed to fetch data');
+        });
+}
+
+// open
 function openCart(a) {
     let table_name = a.getAttribute('selected-table-name');
     document.getElementById("cartPopUpLabel").innerText = table_name;
-    
+
     // minimize the existing modal [ Menu Modal ]
     $("#menuePopUp").modal('hide');
 
@@ -24,7 +50,7 @@ function backCart() {
 
 function generateOrder() {
     let table_name = document.getElementById('cartPopUpLabel').innerText;
-    
+
     let table_cart_data = localStorage.getItem(table_name)
     table_cart_data = JSON.parse(table_cart_data);
 
@@ -38,7 +64,7 @@ function loadCart(table_name) {
 
     let table_cart_data = localStorage.getItem(table_name)
     table_cart_data = JSON.parse(table_cart_data);
-    
+
 
     // loading the cart starts from here
 
@@ -124,7 +150,7 @@ function totalPayBalance() {
     });
 
     total_amount = total_amount.toFixed(2)
-    
+
     document.getElementById('total-amount').innerText = total_amount;
 }
 
@@ -145,17 +171,26 @@ function calculateTax(amount) {
     }
 }
 
-function createOrder() {
-    let user_detail = document.getElementById('user-detail')
-    if (user_detail != null) {
-        let user_information = localStorage.getItem('user_information');
-        user_detail.value = user_information;
-    }
+async function createOrder() {
+    let order_data = {}
+    let seat_name = document.getElementById('cartPopUpLabel').innerText;
+    let cart_data = localStorage.getItem(seat_name);
 
-    cart_data = localStorage.getItem(table_name);
-    document.getElementById('order_data').value = cart_data;
-    localStorage.removeItem(table_name)
-    document.getElementById('order_submit').click()
+    let theatre_id = JSON.parse(document.getElementById('theatre-id').innerText);
+    console.log(theatre_id);
+    order_data['theatre_id'] = theatre_id;
+    order_data['cart_data'] = JSON.parse(cart_data);
+    order_data['seat'] = seat_name;
+
+    let url = "/theatre/api/create-order"
+    let data;
+    data = await PostRequest(url, order_data);
+
+    localStorage.removeItem(seat_name);
+    let redirect_url = data['url']
+    console.log(redirect_url);
+    window.open(redirect_url, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=10,left=10,width=600,height=600");
+
 }
 
 

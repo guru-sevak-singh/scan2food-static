@@ -152,5 +152,3 @@ function OpenPopUp(table_name) {
     $("#menuePopUp").modal('show');
 
 }
-
-loadTax();
