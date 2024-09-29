@@ -47,11 +47,11 @@ async function getRequest(url) {
 
 
 function printKot(order_id) {
-    window.open(`/kot/${order_id}`, "", "width=600, height=600")
+    window.open(`/theatre/print-kot/${order_id}`, "", "width=600, height=600")
 }
 
 function printBill(order_id) {
-    window.open(`/bill/${order_id}`, "", "width=600, height=600")
+    window.open(`/theatre/print-bill/${order_id}`, "", "width=600, height=600")
 }
 
 function createOrderTab(order_data) {
