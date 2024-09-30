@@ -45,12 +45,20 @@ allSeatSocket.onclose = (e) => {
                 let seat_id = `seat-${updated_data.seat_id}`;
                 let seat = document.getElementById(seat_id)
 
-                let payment_panding = updated_data.payment_panding;
-                if (payment_panding === true) {
-                    seat.setAttribute('class', 'seat orderreceived')
+                let seat_status = updated_data.is_vacent
+
+                if (seat_status === true) {
+                    seat.setAttribute('class', 'seat')
                 }
                 else {
-                    seat.setAttribute('class', 'seat paymentreceived')
+
+                    let payment_panding = updated_data.payment_panding;
+                    if (payment_panding === true) {
+                        seat.setAttribute('class', 'seat orderreceived')
+                    }
+                    else {
+                        seat.setAttribute('class', 'seat paymentreceived')
+                    }
                 }
 
             }
