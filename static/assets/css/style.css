@@ -165,6 +165,9 @@ body {
     .pageWrapper {
         min-height: calc(100vh - 150px);
     }
+    #paymentPage { 
+    min-height: calc(100vh - 199px);
+    }
 }
 
 
