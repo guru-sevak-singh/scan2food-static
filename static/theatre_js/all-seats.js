@@ -1,5 +1,5 @@
 async function getRequest(url) {
-    // console.log(url);
+    
     return fetch(url)
         .then(function (response) {
             return response.json();
@@ -133,8 +133,13 @@ function showOrderData() {
 ShowSeats()
 
 async function OpenPopUp(table_name, div="") {
-    console.log(div)
-    let seat_class = div.getAttribute('class');
+    let seat_class
+    if (div === "") {
+        seat_class = 'seat'   
+    }
+    else{
+        seat_class = div.getAttribute('class');
+    }
     if (seat_class === 'seat') {
         document.getElementById('menuePopUpLabel').innerText = table_name
         let table_cart_data = localStorage.getItem(table_name);

@@ -2,7 +2,7 @@ const csrftoken = document.querySelector('[name=csrf-token]').content;
 
 // function to hit the post request
 async function PostRequest(url, data) {
-    console.log(data);
+    
     return fetch(url, {
         method: 'POST',
         headers: {
@@ -54,7 +54,6 @@ function generateOrder() {
     let table_cart_data = localStorage.getItem(table_name)
     table_cart_data = JSON.parse(table_cart_data);
 
-    console.log(table_cart_data);
 }
 
 function loadCart(table_name) {
@@ -175,22 +174,32 @@ async function createOrder() {
     let order_data = {}
     let seat_name = document.getElementById('cartPopUpLabel').innerText;
     let cart_data = localStorage.getItem(seat_name);
-
-    let theatre_id = JSON.parse(document.getElementById('theatre-id').innerText);
-    console.log(theatre_id);
-    order_data['theatre_id'] = theatre_id;
-    order_data['cart_data'] = JSON.parse(cart_data);
-    order_data['seat'] = seat_name;
-
-    let url = "/theatre/api/create-order"
-    let data;
-    data = await PostRequest(url, order_data);
-
-    localStorage.removeItem(seat_name);
-    let redirect_url = data['url']
-    console.log(redirect_url);
-    window.open(redirect_url, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=10,left=10,width=600,height=600");
-    $("#cartPopUp").modal("hide");
+    
+    if (cart_data === '{}') {
+        alert('Please Select Some Items first')
+    }
+    else {
+        let theatre_id = JSON.parse(document.getElementById('theatre-id').innerText);
+        
+        order_data['theatre_id'] = theatre_id;
+        order_data['cart_data'] = JSON.parse(cart_data);
+        order_data['seat'] = seat_name;
+    
+        let url = "/theatre/api/create-order"
+        let data;
+        data = await PostRequest(url, order_data);
+    
+        localStorage.removeItem(seat_name);
+        let redirect_url = data['url']
+        
+        if (window.location.href.includes('show-menu')){
+            window.open(redirect_url, '_self')
+        }
+        else {
+            window.open(redirect_url, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=10,left=10,width=600,height=600");
+            $("#cartPopUp").modal("hide");
+        }
+    }
 }
 
 

@@ -26,8 +26,6 @@ function showTax() {
         element.innerText = grand_sum;
     });
 
-    document.getElementById('bill_amount').value = parseFloat(grand_sum);
-
 
 }
 
@@ -47,20 +45,27 @@ async function getRequest(url) {
 
 
 function printKot(order_id) {
-    window.open(`/theatre/print-kot/${order_id}`, "", "width=600, height=600")
+    window.open(`/theatre/print-kot/${order_id}`, "", "width=600, height=600");
 }
 
 function printBill(order_id) {
-    window.open(`/theatre/print-bill/${order_id}`, "", "width=600, height=600")
+    window.open(`/theatre/print-bill/${order_id}`, "", "width=600, height=600");
 }
 
 function createOrderTab(order_data) {
+    document.getElementById('delivery-detail-box').setAttribute('class', 'd-none');
     if (order_data.order_detail.food_delivered === false) {
-        document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-clock text-danger mb-0 me-1"></i>Delivery Pending`
+        document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-clock text-danger mb-0 me-1"></i>Delivery Pending`;
+        document.getElementById('order-deliver-button').setAttribute('style', '');
     }
     else {
-        document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-check-circle text-success mb-0 me-1"></i> Order Delivery`
+        document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-check-circle text-success mb-0 me-1"></i> Order Delivered`;
+        document.getElementById('order-deliver-button').style.display = 'none';
+        document.getElementById('delivery-detail-box').setAttribute('class', 'd-flex justify-content-between');
+        document.getElementById('delivery-detail-box-value').innerText = order_data.order_detail.delivery_time;
     }
+
+    document.getElementById('order-deliver-button').setAttribute('order-id', order_data.order_detail.order_id)
     document.getElementById('order-id').innerText = `#${order_data.order_detail.order_id}`;
     document.getElementById('seat-name').innerText = order_data.seat;
     document.getElementById('order-date').innerText = order_data.order_detail.order_date;
@@ -69,10 +74,17 @@ function createOrderTab(order_data) {
     if (order_data.order_detail.payment_pending === true) {
         payment_status = '<i class="fa fas fa-clock text-danger mb-0 me-1"></i> Pending';
         document.getElementById('panding-amount-heading').innerText = 'Pending Amount';
+        document.getElementById('payment-tab-panding-amount-heading').innerText = 'Pending Amount';
+        document.getElementById('panding-amount-heading-value').innerText = 0;
+        document.getElementById('payment-tab-panding-amount-value').setAttribute('class', 'amount-with-tax');
     }
     else {
-        payment_status = '<i class="fa fas fa-check-circle text-success mb-0 me-1"></i>  Done'
-        document.getElementById('panding-amount-heading').innerText = 'Amount Paid'
+        payment_status = '<i class="fa fas fa-check-circle text-success mb-0 me-1"></i>  Done';
+        document.getElementById('panding-amount-heading').innerText = 'Amount Paid';
+        document.getElementById('payment-tab-panding-amount-heading').innerText = 'Amount Paid';
+        document.getElementById('panding-amount-heading-value').innerText = order_data.order_detail.amount;
+        document.getElementById('payment-tab-panding-amount-value').innerText = order_data.order_detail.amount;
+        document.getElementById('payment-method-value').innerHTML = order_data.order_detail.payment_method;
     }
 
     document.getElementById('payment-status').innerHTML = payment_status
@@ -126,7 +138,7 @@ function paymentTab(order_data) {
 
 }
 
-async function openOrderProfile(order_id, page) {   
+async function openOrderProfile(order_id, page) {
     let order_data_url = "";
 
     if (page === "order-page") {
@@ -142,32 +154,25 @@ async function openOrderProfile(order_id, page) {
     // creating Cart Tab
     createCartTab(order_data);
 
-    // create Payment Tab
-
     // show tax
     showTax()
 
-    // adjustment.addEventListener('change', (e) => {
+}
 
-    //     let bill_amount = parseFloat(document.getElementById('bill_amount').value);
-    //     new_amount = bill_amount;
-    //     new_amount = new_amount.toFixed(2)
-    //     new_amount = parseFloat(new_amount)
-    //     console.log(new_amount)
-    //     paid_amount.value = new_amount
-    // })
+async function deliverOrder() {
+    let order_deliver_button = document.getElementById('order-deliver-button');
+    let order_id = order_deliver_button.getAttribute('order-id')
+
+    let url = `/theatre/api/deliver-order/${order_id}`
+    let order_status = await getRequest(url)
 
 
-    document.getElementById('food-delivery-pending').addEventListener('click', () => {
-        let url = `/update_order_status/${order_id}/false`;
-        getRequest(url);
-        document.getElementById('delivery-status').innerHTML = '<i class="fa fas fa-clock text-danger mb-0 me-1"></i>Delivery Pending';
-    })
+    if (order_status.message === 'Order Delivered Successfully') {
+        document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-check-circle text-success mb-0 me-1"></i> Order Delivered`
+    }
+    else {
+        alert(order_status.message)
+    }
 
-    document.getElementById('food-delivery-done').addEventListener('click', () => {
-        let url = `/update_order_status/${order_id}/true`;
-        getRequest(url);
-        document.getElementById('delivery-status').innerHTML = '<i class="fa fas fa-check-circle text-success mb-0 me-1"></i>Delivery Done';
-    })
-
+    document.getElementById('order-deliver-button').style.display = 'none'
 }

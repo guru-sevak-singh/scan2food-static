@@ -7,7 +7,7 @@ allSeatSocket.onmessage = (e) => {
 
     let eventData = JSON.parse(e.data)
     let updated_data = JSON.parse(eventData.updated_table_data);
-    console.log(updated_data);
+    
 
     let order_theatre_id = updated_data.theatre_id
     if (order_theatre_id == theatre_id) {
@@ -16,13 +16,17 @@ allSeatSocket.onmessage = (e) => {
         let seat = document.getElementById(seat_id)
 
         let payment_panding = updated_data.payment_panding;
-        if (payment_panding === true) {
-            seat.setAttribute('class', 'seat orderreceived')
-        }
-        else {
+
+        if (payment_panding === false) {
             seat.setAttribute('class', 'seat paymentreceived')
         }
 
+        let order_status = updated_data.is_vacent
+        if (order_status == true) {
+            seat.setAttribute('class', 'seat')
+        }
+
+        showOrderData()
     }
 
 }
@@ -37,7 +41,6 @@ allSeatSocket.onclose = (e) => {
 
             let eventData = JSON.parse(e.data)
             let updated_data = JSON.parse(eventData.updated_table_data);
-            console.log(updated_data);
 
             let order_theatre_id = updated_data.theatre_id
             if (order_theatre_id == theatre_id) {
@@ -60,6 +63,7 @@ allSeatSocket.onclose = (e) => {
                         seat.setAttribute('class', 'seat paymentreceived')
                     }
                 }
+                showOrderData()
 
             }
 
