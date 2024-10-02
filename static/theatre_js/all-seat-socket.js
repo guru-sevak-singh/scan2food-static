@@ -1,4 +1,4 @@
-let socket_url = `ws://${window.location.host}/ws/all-seat-datasocket/`
+let socket_url = `wss://${window.location.host}/ws/all-seat-datasocket/`
 
 let allSeatSocket = new WebSocket(socket_url)
 
