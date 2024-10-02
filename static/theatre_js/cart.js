@@ -141,7 +141,8 @@ function getCartAmount(cart_data) {
 }
 
 function totalPayBalance() {
-    let elements = document.querySelectorAll('.amounts');
+    let cart_area = document.getElementById('cart-area');
+    let elements = cart_area.querySelectorAll('.amounts');
     let total_amount = 0;
     elements.forEach(element => {
         number = Number(element.innerText);
