@@ -126,13 +126,14 @@ function createItemCart(item_name, item_type, item_price, item_quantity, item_de
 }
 
 function getCartAmount(cart_data) {
-
+    
     // cart data get from old data
     let total_amount = 0;
     for (let cart_item in cart_data) {
         item_amount = cart_data[cart_item]['item_price'] * cart_data[cart_item]['quantity'];
         total_amount += item_amount;
     }
+
     calculateTax(total_amount)
     document.getElementById('total-cart-amount').innerText = total_amount;
     document.getElementById('cart-amount').innerText = total_amount;

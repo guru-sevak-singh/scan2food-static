@@ -165,8 +165,8 @@ body {
     .pageWrapper {
         min-height: calc(100vh - 150px);
     }
-    #paymentPage { 
-    min-height: calc(100vh - 199px);
+    #paymentPage.pageWrapper  { 
+    min-height: calc(100vh - 30vh);
     }
 }
 
@@ -236,9 +236,9 @@ body {
     position: relative;
 }
 .howItWorkImg {
-    width: 80px;
+    width: 65px;
     height: auto;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 .table-status {
     position: absolute;

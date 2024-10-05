@@ -72,7 +72,7 @@ function showFoodItems(category_data, is_active) {
     }
 
     let new_div = document.createElement('div');
-    new_div.setAttribute('class', 'row mb-5')
+    new_div.setAttribute('class', 'row mb-5 g-3')
 
     let food_items = category_data.items
     for (let i = 0; i < food_items.length; i++) {

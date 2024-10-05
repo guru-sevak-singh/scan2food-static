@@ -174,13 +174,13 @@ function UpdateCart(table_name) {
     let cart_length = Object.keys(table_cart_data).length;
 
     if (cart_length == 0) {
-        document.getElementById('cart-div').style.display = 'none';
+        document.getElementById('cart-div').setAttribute('disabled', '');
     }
     else {
-        document.getElementById('cart-div').style.display = 'block';
+        document.getElementById('cart-div').removeAttribute('disabled');
     }
     document.getElementById('cart-length').innerText = cart_length;
-
+    
     getCartAmount(table_cart_data)
 }
 
@@ -241,7 +241,7 @@ function loadExistingCart(table_name) {
     document.getElementById('cart-length').innerText = cart_length;
 
     if (cart_length === 0) {
-        document.getElementById('cart-div').setAttribute('style', 'display:none;');
+        document.getElementById('cart-div').setAttribute('disabled', '');
     }
 
 }

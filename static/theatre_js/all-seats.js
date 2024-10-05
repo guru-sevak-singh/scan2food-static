@@ -145,13 +145,11 @@ async function OpenPopUp(table_name, div="") {
         let table_cart_data = localStorage.getItem(table_name);
 
         let cartBox = document.getElementById('cart-div');
-        cartBox.setAttribute('style', "display:none;");
 
         if (table_cart_data === null) {
             localStorage.setItem(table_name, JSON.stringify({}));
-        }
-        else {
-            cartBox.setAttribute('style', 'display: block;');
+            document.getElementById('total-cart-amount').innerText = 0;
+            document.getElementById('cart-amount').innerText = 0;
         }
 
         cartBox.setAttribute('selected-table-name', table_name);
