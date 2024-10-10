@@ -137,6 +137,9 @@ body {
     .container-xxl.position-relative.p-0 {
         padding-bottom: 40px!important;
     }
+    #paymentPage  { 
+        min-height: calc(100vh - 33vh);
+        }
 }
 
 @media (min-width: 992px) {
@@ -160,12 +163,16 @@ body {
         background: var(--dark) !important;
     }
     .container-xxl.position-relative.p-0 {
-        padding-bottom: 80px!important;
+        padding-bottom: 60px!important;
     }
+    .theatreHeader.container-xxl.position-relative.p-0 {
+        padding-bottom: 60px!important;
+    }
+
     .pageWrapper {
-        min-height: calc(100vh - 150px);
+        min-height: calc(100vh - 134px);
     }
-    #paymentPage.pageWrapper  { 
+    #paymentPage  { 
     min-height: calc(100vh - 30vh);
     }
 }
@@ -561,14 +568,21 @@ margin-bottom: 15px!important;
 .w-140 {
     min-width: 140px;
 }
-.w-140 {
+/* .w-140 {
     min-width: 180px;
+} */
+.w-200 {
+    min-width: 200px;
 }
-.w-140 {
-    min-width: 208px;
+.w-50 {
+    width: 50%;
 }
-thead tr {
+.w-65 {
+    width: 65%;
+}
+.custom-table thead tr {
     background-color: #2c406e;;
     color: #fff;
     letter-spacing: 0.8px;
+    min-width: 100px;
 }

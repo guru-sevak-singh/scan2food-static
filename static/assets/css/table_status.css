@@ -1,25 +1,25 @@
-#remaining-part {
+/* #remaining-part {
     font-family: 'Montserrat', sans-serif;
     background: #0d1b2a;
     color: #f0f4f8;
-}
+} */
 
 .weather-card {
-    margin: 40px auto;
-    height: 600px;
-    width: 380px;
+    margin: 10px auto;
+    /* height: 600px; */
+    width: 100%;
     background: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.2); */
     overflow: hidden;
 }
 
 .weather-card .top {
     position: relative;
-    height: 450px;
+    /* height: 450px; */
     width: 100%;
     overflow: hidden;
-    background: url(https://guru-sevak-singh.github.io/scan2food-static/static/assets/images/food-cooking.gif) no-repeat;
+    /* background: url(https://guru-sevak-singh.github.io/scan2food-static/static/assets/images/food-cooking.gif) no-repeat; */
     background-size: cover;
     background-position: center center;
     border-bottom: 3px solid #f79393;

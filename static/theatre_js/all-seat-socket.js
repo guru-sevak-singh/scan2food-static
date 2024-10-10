@@ -1,6 +1,6 @@
 let socket_url;
 
-if (window.location.host.includes('https')) {
+if (window.location.href.includes('https')) {
     socket_url = `wss://${window.location.host}/ws/all-seat-datasocket/`
 }
 else {
@@ -26,6 +26,7 @@ allSeatSocket.onmessage = (e) => {
 
         if (payment_panding === false) {
             seat.setAttribute('class', 'seat paymentreceived')
+            showToast('bg-success', `New Order Come From ${updated_data.seat_name}`)
         }
 
         let order_status = updated_data.is_vacent
@@ -63,11 +64,9 @@ allSeatSocket.onclose = (e) => {
                 else {
 
                     let payment_panding = updated_data.payment_panding;
-                    if (payment_panding === true) {
-                        seat.setAttribute('class', 'seat orderreceived')
-                    }
-                    else {
+                    if (payment_panding === false) {
                         seat.setAttribute('class', 'seat paymentreceived')
+                        showToast('bg-success', `New Order Come From ${updated_data.seat_name}`)
                     }
                 }
                 showOrderData()

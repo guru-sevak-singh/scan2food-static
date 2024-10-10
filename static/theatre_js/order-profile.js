@@ -44,11 +44,13 @@ async function getRequest(url) {
 }
 
 
-function printKot(order_id) {
+function printKot(btn) {
+    let order_id = btn.getAttribute('order_id');
     window.open(`/theatre/print-kot/${order_id}`, "", "width=600, height=600");
 }
 
-function printBill(order_id) {
+function printBill(btn) {
+    let order_id = btn.getAttribute('order_id');
     window.open(`/theatre/print-bill/${order_id}`, "", "width=600, height=600");
 }
 
@@ -149,6 +151,9 @@ async function openOrderProfile(order_id, page) {
     }
     let order_data = await getRequest(order_data_url)
 
+    order_id = order_data.order_detail.order_id;
+    document.getElementById('bill-button').setAttribute('order_id', order_id);
+    document.getElementById('kot-button').setAttribute('order_id', order_id);
     // creating order tab
     createOrderTab(order_data);
     // creating Cart Tab
